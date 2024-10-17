@@ -50,7 +50,7 @@ function SideNav() {
        id: 5,
       name: "Debts/Emi",
       icon: TrendingDownIcon,
-       path: "/dashboard/debts",
+       path: "/dashboard/emi",
      },
      {
       id: 6,
@@ -62,7 +62,7 @@ function SideNav() {
       id: 7,
      name: "tax",
      icon: IndianRupee,
-      path: "/dashboard/tax",
+      path: "/dashboard/Tax",
     }
     
    

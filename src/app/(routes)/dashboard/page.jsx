@@ -4,7 +4,7 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import CardInfo from "./_components/CardInfo";
 import { db } from "@/utils/dbConfig";
 import { desc, eq, getTableColumns, sql } from "drizzle-orm";
-import { Budgets, Expenses, Incomes, investments } from "@/utils/schema";
+import { Budgets, debts, Expenses, Incomes, investments, savings, tax } from "@/utils/schema";
 import BarChartDashboard from "./_components/BarChartDashboard";
 import BudgetItem from "./budgets/_componets/BudgetItem";
 import ExpenseListTable from "./expenses/_components/ExpenseListTable";
@@ -16,11 +16,18 @@ function Dashboard() {
   const [incomeList, setIncomeList] = useState([]);
   const [expensesList, setExpensesList] = useState([]);
   const [investmentList, setInvestmentList] = useState([]);
+  const [savingsList, setSavingsList]=useState([]);
+  const[ debtsList , setDebtsList]= useState([]);
+  const [ taxList , settaxList] = useState([]);
 
   useEffect(() => {
     if (user) {
       getBudgetList();
       getInvestment();
+      getSaving();
+      getDebt();
+      getTax();
+      
     }
   }, [user]);
 
@@ -93,6 +100,49 @@ function Dashboard() {
     setExpensesList(result);
     
   };
+  const getSaving = async () => {
+    const result = await db
+      .select({
+        id: savings.id,
+        name: savings.name,
+        totalSavings: sql`sum(CAST(${savings.amount} AS NUMERIC))`.mapWith(Number),
+      })
+      .from(savings)
+      .where(eq(savings.createdBy, user?.primaryEmailAddress?.emailAddress))
+      .groupBy(savings.id, savings.name)
+      .orderBy(desc(savings.id));
+
+    setSavingsList(result);
+  };
+  const getDebt = async () => {
+    const result = await db
+      .select({
+        id: debts.id,
+        name: debts.name,
+        totalDebts: sql`sum(CAST(${debts.amount} AS NUMERIC))`.mapWith(Number),
+      })
+      .from(debts)
+      .where(eq(debts.createdBy, user?.primaryEmailAddress?.emailAddress))
+      .groupBy(debts.id, debts.name)
+      .orderBy(desc(debts.id));
+
+    setDebtsList(result);
+  };
+  const getTax = async () => {
+    const result = await db
+      .select({
+        id: tax.id,
+        name: tax.name,
+        totaltax: sql`sum(CAST(${tax.amount} AS NUMERIC))`.mapWith(Number),
+      })
+      .from(tax)
+      .where(eq(tax.createdBy, user?.primaryEmailAddress?.emailAddress))
+      .groupBy(tax.id, tax.name)
+      .orderBy(desc(tax.id));
+
+    settaxList(result);
+  };
+
 
   return (
     <div className="p-8 bg-">
@@ -101,7 +151,7 @@ function Dashboard() {
         Here's what's happening with your money. Let's manage your expenses.
       </p>
 
-      <CardInfo budgetList={budgetList} incomeList={incomeList} investmentList={investmentList} />
+      <CardInfo budgetList={budgetList} incomeList={incomeList} investmentList={investmentList} savingsList={savingsList} debtsList={debtsList} taxList={taxList}/>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 mt-6 gap-5">
         <div className="lg:col-span-2">

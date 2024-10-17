@@ -4,7 +4,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY);
 
 // Function to generate personalized financial advice
-const getFinancialAdvice = async (totalBudget, totalIncome, totalSpend,investment) => {
+const getFinancialAdvice = async (totalBudget, totalIncome, totalSpend,investment,savings,debts,tax) => {
   console.log(totalBudget, totalIncome, totalSpend);
   try {
     const prompt = ` this should be in bullets points and in string format or it could be in number format
@@ -14,9 +14,13 @@ const getFinancialAdvice = async (totalBudget, totalIncome, totalSpend,investmen
     - Expenses: ${totalSpend} rupees
     - Incomes: ${totalIncome} rupees
     -investment:${investment}rupees
+    -savings:${savings} rupees
+    -debts:${debts} rupees
+    -tax:${tax} rupees
+    
     
     Please provide a comprehensive financial strategy that includes:
-    1. A percentage breakdown of how to allocate the total budget across essential categories (e.g., savings, investments, necessities) with numerical values.
+    1. A percentage breakdown of how to allocate the total budget across essential categories (e.g., savings,debts, investments, necessities,tax) with numerical values.
     2. Specific savings goals, such as a target savings amount per month or year.
     3. Recommendations on how to reduce unnecessary expenses by a percentage or amount and how to handle investments.
     4. Suggested investment options based on the current market trends and potential future returns, with estimated returns in percentage.
@@ -26,6 +30,10 @@ const getFinancialAdvice = async (totalBudget, totalIncome, totalSpend,investmen
     Provide the information in bullet points, structured as a list with clear, numbered items, making it easy to convert into a graphical format for presentation.
   `;
   console.log( 'investment',investment)
+  console.log('savings',savings)
+  console.log('debts',debts)
+  console.log('tax',tax)
+
   
     // Call the Gemini model to generate content
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
