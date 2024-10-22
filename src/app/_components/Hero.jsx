@@ -1,5 +1,3 @@
-
-
 "use client";
 import React from "react";
 import { HeroParallax } from "@/components/ui/hero-parallax";
@@ -7,98 +5,66 @@ import { HeroParallax } from "@/components/ui/hero-parallax";
 export function HeroParallaxDemo() {
   return <HeroParallax products={products} />;
 }
+
 export const products = [
   {
     title: "Moonbeam",
-    link: "https://gomoonbeam.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/moonbeam.png",
+    thumbnail: "/images/pexels-fauxels-3183153.jpg", // Correct local path
   },
   {
     title: "Cursor",
-    link: "https://cursor.so",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/cursor.png",
+    thumbnail: "/images/pexels-cheepo2109-303159.jpg", // Correct local path
   },
   {
     title: "Rogue",
-    link: "https://userogue.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/rogue.png",
+    thumbnail: "/images/pexels-thisisengineering-3861969.jpg", // Correct local path
   },
-
   {
     title: "Editorially",
-    link: "https://editorially.org",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/editorially.png",
+    thumbnail: "/images/pexels-startup-stock-photos-212286.jpg", // Correct local path
   },
   {
     title: "Editrix AI",
-    link: "https://editrix.ai",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/editrix.png",
+    thumbnail: "/images/pexels-ruslan-burlaka-40570-140945.jpg", // Correct local path
   },
   {
     title: "Pixel Perfect",
-    link: "https://app.pixelperfect.quest",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/pixelperfect.png",
+    thumbnail: "/images/pexels-rdne-8369676.jpg", // Correct local path
   },
-
   {
     title: "Algochurn",
-    link: "https://algochurn.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/algochurn.png",
+    thumbnail: "/images/pexels-pixabay-265087.jpg", // Correct local path
   },
   {
     title: "Aceternity UI",
-    link: "https://ui.aceternity.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/aceternityui.png",
+    thumbnail: "/images/pexels-pixabay-60504.jpg", // Correct local path
   },
   {
     title: "Tailwind Master Kit",
-    link: "https://tailwindmasterkit.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/tailwindmasterkit.png",
+    thumbnail: "/images/pexels-nappy-3360204.jpg", // Correct local path
   },
   {
     title: "SmartBridge",
-    link: "https://smartbridgetech.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/smartbridge.png",
+    thumbnail: "/images/pexels-nappy-935949.jpg", // Correct local path
   },
   {
     title: "Renderwork Studio",
-    link: "https://renderwork.studio",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/renderwork.png",
+    thumbnail: "/images/pexels-fauxels-3184465.jpg", // Correct local path
   },
-
   {
     title: "Creme Digital",
-    link: "https://cremedigital.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/cremedigital.png",
+    thumbnail: "/images/pexels-fauxels-3183153.jpg", // Correct local path
   },
   {
     title: "Golden Bells Academy",
-    link: "https://goldenbellsacademy.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/goldenbellsacademy.png",
+    thumbnail: "/images/pexels-energepic-com-27411-159888.jpg", // Correct local path
   },
   {
     title: "Invoker Labs",
-    link: "https://invoker.lol",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/invoker.png",
+    thumbnail: "/images/pexels-divinetechygirl-1181675.jpg", // Correct local path
   },
   {
     title: "E Free Invoice",
-    link: "https://efreeinvoice.com",
-    thumbnail:
-      "https://aceternity.com/images/products/thumbnails/new/efreeinvoice.png",
+    thumbnail: "/images/pexels-davidmcbee-730547.jpg", // Correct local path
   },
 ];

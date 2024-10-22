@@ -11,7 +11,9 @@ function Header() {
     <div className="fixed top-0 left-0 w-full z-50 p-5 flex justify-between items-center shadow-sm bg-black"> 
       {/* Fixed header */}
       <div className="flex flex-row items-center">
-        <span className="text-blue-800 font-bold text-xl">finac</span>
+      <Link href="/">
+        <span className="text-white font-bold text-2xl">Finacc</span>
+        </Link>
       </div>
       
       {isSignedIn ? (

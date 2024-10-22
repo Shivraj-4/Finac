@@ -4,10 +4,20 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import CardInfo from "./_components/CardInfo";
 import { db } from "@/utils/dbConfig";
 import { desc, eq, getTableColumns, sql } from "drizzle-orm";
-import { Budgets, debts, Expenses, Incomes, investments, savings, tax } from "@/utils/schema";
+import {
+  Budgets,
+  debts,
+  Expenses,
+  Incomes,
+  investments,
+  savings,
+  tax,
+} from "@/utils/schema";
 import BarChartDashboard from "./_components/BarChartDashboard";
 import BudgetItem from "./budgets/_componets/BudgetItem";
 import ExpenseListTable from "./expenses/_components/ExpenseListTable";
+
+import PieChartComponent from "./_components/PieChartComponent";
 
 function Dashboard() {
   const { user } = useUser();
@@ -16,9 +26,9 @@ function Dashboard() {
   const [incomeList, setIncomeList] = useState([]);
   const [expensesList, setExpensesList] = useState([]);
   const [investmentList, setInvestmentList] = useState([]);
-  const [savingsList, setSavingsList]=useState([]);
-  const[ debtsList , setDebtsList]= useState([]);
-  const [ taxList , settaxList] = useState([]);
+  const [savingsList, setSavingsList] = useState([]);
+  const [debtsList, setDebtsList] = useState([]);
+  const [taxList, settaxList] = useState([]);
 
   useEffect(() => {
     if (user) {
@@ -27,7 +37,6 @@ function Dashboard() {
       getSaving();
       getDebt();
       getTax();
-      
     }
   }, [user]);
 
@@ -56,7 +65,9 @@ function Dashboard() {
       const result = await db
         .select({
           ...getTableColumns(Incomes),
-          totalAmount: sql`SUM(CAST(${Incomes.amount} AS NUMERIC))`.mapWith(Number),
+          totalAmount: sql`SUM(CAST(${Incomes.amount} AS NUMERIC))`.mapWith(
+            Number
+          ),
         })
         .from(Incomes)
         .groupBy(Incomes.id); // Adjust if grouping by another column
@@ -73,7 +84,8 @@ function Dashboard() {
       .select({
         id: investments.id,
         name: investments.name,
-        totalInvestment: sql`sum(CAST(${investments.amount} AS NUMERIC))`.mapWith(Number),
+        totalInvestment:
+          sql`sum(CAST(${investments.amount} AS NUMERIC))`.mapWith(Number),
       })
       .from(investments)
       .where(eq(investments.createdBy, user?.primaryEmailAddress?.emailAddress))
@@ -98,14 +110,15 @@ function Dashboard() {
       .orderBy(desc(Expenses.id));
 
     setExpensesList(result);
-    
   };
   const getSaving = async () => {
     const result = await db
       .select({
         id: savings.id,
         name: savings.name,
-        totalSavings: sql`sum(CAST(${savings.amount} AS NUMERIC))`.mapWith(Number),
+        totalSavings: sql`sum(CAST(${savings.amount} AS NUMERIC))`.mapWith(
+          Number
+        ),
       })
       .from(savings)
       .where(eq(savings.createdBy, user?.primaryEmailAddress?.emailAddress))
@@ -143,7 +156,6 @@ function Dashboard() {
     settaxList(result);
   };
 
-
   return (
     <div className="p-8 bg-">
       <h2 className="font-bold text-4xl">Hi, {user?.fullName} 👋</h2>
@@ -151,25 +163,43 @@ function Dashboard() {
         Here's what's happening with your money. Let's manage your expenses.
       </p>
 
-      <CardInfo budgetList={budgetList} incomeList={incomeList} investmentList={investmentList} savingsList={savingsList} debtsList={debtsList} taxList={taxList}/>
+      <CardInfo
+        budgetList={budgetList}
+        incomeList={incomeList}
+        investmentList={investmentList}
+        savingsList={savingsList}
+        debtsList={debtsList}
+        taxList={taxList}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 mt-6 gap-5">
         <div className="lg:col-span-2">
           <BarChartDashboard budgetList={budgetList} />
-          <ExpenseListTable expensesList={expensesList} refreshData={getBudgetList} />
+          <PieChartComponent
+            incomeList={incomeList}
+            investmentList={investmentList}
+            savingsList={savingsList}
+            debtsList={debtsList}
+            taxList={taxList}
+          />
+          <ExpenseListTable
+            expensesList={expensesList}
+            refreshData={getBudgetList}
+          />
+          
         </div>
         <div className="grid gap-5">
           <h2 className="font-bold text-lg">Latest Budgets</h2>
-          {budgetList?.length > 0 ? (
-            budgetList.map((budget, index) => <BudgetItem budget={budget} key={index} />)
-          ) : (
-            [1, 2, 3, 4].map((item, index) => (
-              <div
-                key={index}
-                className="h-[180px] w-full bg-slate-200 rounded-lg animate-pulse"
-              ></div>
-            ))
-          )}
+          {budgetList?.length > 0
+            ? budgetList.map((budget, index) => (
+                <BudgetItem budget={budget} key={index} />
+              ))
+            : [1, 2, 3, 4].map((item, index) => (
+                <div
+                  key={index}
+                  className="h-[180px] w-full bg-slate-200 rounded-lg animate-pulse"
+                ></div>
+              ))}
         </div>
       </div>
     </div>

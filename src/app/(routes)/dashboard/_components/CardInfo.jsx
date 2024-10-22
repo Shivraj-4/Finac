@@ -1,3 +1,4 @@
+
 import formatNumber from "@/utils";
 import getFinancialAdvice from "@/utils/getFinacialAdvice";
 import {
@@ -8,6 +9,7 @@ import {
   CircleDollarSign,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
+
 
 function CardInfo({ budgetList, incomeList, investmentList, savingsList ,debtsList,taxList}) {
   const [totalBudget, setTotalBudget] = useState(0);
@@ -102,6 +104,7 @@ function CardInfo({ budgetList, incomeList, investmentList, savingsList ,debtsLi
               </h2>
             </div>
           </div>
+          
 
           <div className="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             <div className="p-7 border rounded-2xl flex items-center justify-between">

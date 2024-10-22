@@ -4,7 +4,6 @@ import {
   LayoutGrid,
   PiggyBank,
   ReceiptText,
-  ShieldCheck,
   CircleDollarSign,
   TrendingUp,
   TrendingDownIcon,
@@ -14,6 +13,14 @@ import {
 import { UserButton } from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 function SideNav() {
   const menuList = [
     {
@@ -29,84 +36,84 @@ function SideNav() {
       path: "/dashboard/incomes",
     },
     {
-      id: 2,
+      id: 3,
       name: "Budgets",
       icon: PiggyBank,
       path: "/dashboard/budgets",
     },
     {
-      id: 3,
+      id: 4,
       name: "Expenses",
       icon: ReceiptText,
       path: "/dashboard/expenses",
     },
-     {
-       id: 4,
+    {
+      id: 5,
       name: "Investments",
-     icon: TrendingUp,
+      icon: TrendingUp,
       path: "/dashboard/investments",
     },
-  {
-       id: 5,
+    {
+      id: 6,
       name: "Debts/Emi",
       icon: TrendingDownIcon,
-       path: "/dashboard/emi",
-     },
-     {
-      id: 6,
-     name: "My savings",
-     icon: Wallet,
-      path: "/dashboard/savings",
+      path: "/dashboard/emi",
     },
     {
       id: 7,
-     name: "tax",
-     icon: IndianRupee,
+      name: "My savings",
+      icon: Wallet,
+      path: "/dashboard/savings",
+    },
+    {
+      id: 8,
+      name: "Tax",
+      icon: IndianRupee,
       path: "/dashboard/Tax",
-    }
-    
-   
+    },
   ];
+
   const path = usePathname();
 
   useEffect(() => {
     console.log(path);
   }, [path]);
+
   return (
     <div className="h-screen p-5 border shadow-sm">
-      {/* <Image src={'/logo.svg'}
-        alt='logo'
-        width={160}
-        height={100}
-        /> */}
       <div className="flex flex-row items-center">
         <Image src={"./chart-donut.svg"} alt="logo" width={40} height={25} />
-        <span className="text-blue-800 font-bold text-xl">FinanSmart</span>
+        <Link href="/dashboard">
+          <span className="text-blue-800 font-bold text-3xl cursor-pointer">
+            FinanSmart
+          </span>
+        </Link>
       </div>
-      <div className="mt-5">
-        {menuList.map((menu, index) => (
-          <Link href={menu.path} key={index}>
-            <h2
-              className={`flex gap-2 items-center
-                    text-gray-500 font-medium
-                    mb-2
-                    p-4 cursor-pointer rounded-full
-                    hover:text-primary hover:bg-blue-100
-                    ${path == menu.path && "text-primary bg-blue-100"}
-                    `}
-            >
-              <menu.icon />
-              {menu.name}
-            </h2>
-          </Link>
-        ))}
-      </div>
-      <div
-        className="fixed bottom-10 p-5 flex gap-2
-            items-center"
-      >
+
+      {/* Dropdown Menu for the Navigation */}
+      <DropdownMenu>
+        <DropdownMenuTrigger className="mt-5 px-4 py-5 ml-4 bg-black text-white rounded-xl hover:bg-gray-800 transition-all text-m sm:text-base">
+          Track your finance
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="w-64 bg-black text-white sm:w-70 p-2">
+          <DropdownMenuSeparator className="bg-gray-600" />
+          {menuList.map((menu, index) => (
+            <DropdownMenuItem key={index} asChild>
+              <Link
+                href={menu.path}
+                className="flex gap-2 items-center px-3 py-2 rounded-md text-lg sm:text-xl hover:bg-gray-700"
+              >
+                <menu.icon className="text-white" />
+                <span className="text-gray-300">{menu.name}</span>
+              </Link>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <div className="fixed bottom-10 p-5 flex gap-2 items-center">
         <UserButton />
-        Profile
+        <span className="text-black">Profile</span>
       </div>
     </div>
   );
