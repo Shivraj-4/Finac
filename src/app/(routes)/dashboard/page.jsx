@@ -14,7 +14,7 @@ import {
   tax,
 } from "@/utils/schema";
 import BarChartDashboard from "./_components/BarChartDashboard";
-import BudgetItem from "./budgets/_componets/BudgetItem";
+import BudgetItem from "./budgets/_components/BudgetItem";
 import ExpenseListTable from "./expenses/_components/ExpenseListTable";
 import PieChartComponent from "./_components/PieChartComponent";
 
