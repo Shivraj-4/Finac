@@ -46,6 +46,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.0",
     "@types/pg": "^8.11.10",
     "drizzle-kit": "^0.25.0",
     "eslint": "^8",

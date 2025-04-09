@@ -1,4 +1,3 @@
-
 import React from "react";
 
 function IncomeItem({ budget }) {
@@ -25,7 +24,7 @@ function IncomeItem({ budget }) {
             <h2 className="text-sm text-gray-500">{budget.totalItem} Item</h2>
           </div>
         </div>
-        <h2 className="font-bold text-primary text-lg"> ${budget.amount}</h2>
+        <h2 className="font-bold text-primary text-lg">₹{Number(budget.amount).toLocaleString('en-IN')}</h2>
       </div>
     </div>
   );

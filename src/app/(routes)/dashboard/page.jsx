@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import CardInfo from "./_components/CardInfo";
 import { db } from "@/utils/dbConfig";
 import { desc, eq, getTableColumns, sql } from "drizzle-orm";
@@ -16,12 +16,10 @@ import {
 import BarChartDashboard from "./_components/BarChartDashboard";
 import BudgetItem from "./budgets/_componets/BudgetItem";
 import ExpenseListTable from "./expenses/_components/ExpenseListTable";
-
 import PieChartComponent from "./_components/PieChartComponent";
 
 function Dashboard() {
   const { user } = useUser();
-
   const [budgetList, setBudgetList] = useState([]);
   const [incomeList, setIncomeList] = useState([]);
   const [expensesList, setExpensesList] = useState([]);
@@ -65,12 +63,10 @@ function Dashboard() {
       const result = await db
         .select({
           ...getTableColumns(Incomes),
-          totalAmount: sql`SUM(CAST(${Incomes.amount} AS NUMERIC))`.mapWith(
-            Number
-          ),
         })
         .from(Incomes)
-        .groupBy(Incomes.id); // Adjust if grouping by another column
+        .where(eq(Incomes.createdBy, user?.primaryEmailAddress?.emailAddress))
+        .orderBy(desc(Incomes.id));
 
       setIncomeList(result);
     } catch (error) {
@@ -157,49 +153,77 @@ function Dashboard() {
   };
 
   return (
-    <div className="p-8 bg-">
-      <h2 className="font-bold text-4xl">Hi, {user?.fullName} 👋</h2>
-      <p className="text-gray-500">
-        Here's what's happening with your money. Let's manage your expenses.
-      </p>
+    <div className="p-8 bg-gray-50 min-h-screen">
+      {/* Header Section */}
+      <div className="mb-8">
+        <h2 className="font-bold text-4xl text-gray-800">Hi, {user?.fullName} 👋</h2>
+        <p className="text-gray-600 mt-2">
+          Here's what's happening with your money. Let's manage your expenses.
+        </p>
+      </div>
 
-      <CardInfo
-        budgetList={budgetList}
-        incomeList={incomeList}
-        investmentList={investmentList}
-        savingsList={savingsList}
-        debtsList={debtsList}
-        taxList={taxList}
-      />
+      {/* Financial Overview Cards */}
+      <div className="mb-8">
+        <h3 className="text-xl font-semibold text-gray-700 mb-4">Financial Overview</h3>
+        <CardInfo
+          budgetList={budgetList}
+          incomeList={incomeList}
+          investmentList={investmentList}
+          savingsList={savingsList}
+          debtsList={debtsList}
+          taxList={taxList}
+        />
+      </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 mt-6 gap-5">
-        <div className="lg:col-span-2">
-          <BarChartDashboard budgetList={budgetList} />
-          <PieChartComponent
-            incomeList={incomeList}
-            investmentList={investmentList}
-            savingsList={savingsList}
-            debtsList={debtsList}
-            taxList={taxList}
-          />
-          <ExpenseListTable
-            expensesList={expensesList}
-            refreshData={getBudgetList}
-          />
-          
+      {/* Main Content Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column - Charts */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Activity Chart */}
+          <div className="bg-white rounded-xl shadow-sm p-6">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4">Monthly Activity</h3>
+            <BarChartDashboard budgetList={budgetList} />
+          </div>
+
+          {/* Financial Distribution Chart */}
+          <div className="bg-white rounded-xl shadow-sm p-6">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4">Financial Distribution</h3>
+            <PieChartComponent
+              incomeList={incomeList}
+              investmentList={investmentList}
+              savingsList={savingsList}
+              debtsList={debtsList}
+              taxList={taxList}
+            />
+          </div>
+
+          {/* Recent Expenses */}
+          <div className="bg-white rounded-xl shadow-sm p-6">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4">Recent Expenses</h3>
+            <ExpenseListTable
+              expensesList={expensesList}
+              refreshData={getBudgetList}
+            />
+          </div>
         </div>
-        <div className="grid gap-5">
-          <h2 className="font-bold text-lg">Latest Budgets</h2>
-          {budgetList?.length > 0
-            ? budgetList.map((budget, index) => (
-                <BudgetItem budget={budget} key={index} />
-              ))
-            : [1, 2, 3, 4].map((item, index) => (
-                <div
-                  key={index}
-                  className="h-[180px] w-full bg-slate-200 rounded-lg animate-pulse"
-                ></div>
-              ))}
+
+        {/* Right Column - Budgets */}
+        <div className="space-y-6">
+          <div className="bg-white rounded-xl shadow-sm p-6">
+            <h3 className="text-lg font-semibold text-gray-700 mb-4">Latest Budgets</h3>
+            <div className="space-y-4">
+              {budgetList?.length > 0
+                ? budgetList.map((budget, index) => (
+                    <BudgetItem budget={budget} key={index} />
+                  ))
+                : [1, 2, 3].map((item, index) => (
+                    <div
+                      key={index}
+                      className="h-[120px] w-full bg-gray-100 rounded-lg animate-pulse"
+                    ></div>
+                  ))}
+            </div>
+          </div>
         </div>
       </div>
     </div>

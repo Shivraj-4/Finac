@@ -1,4 +1,3 @@
-
 import formatNumber from "@/utils";
 import getFinancialAdvice from "@/utils/getFinacialAdvice";
 import {
@@ -7,6 +6,9 @@ import {
   Wallet,
   Sparkles,
   CircleDollarSign,
+  TrendingUp,
+  TrendingDownIcon,
+  IndianRupee,
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
@@ -62,7 +64,7 @@ function CardInfo({ budgetList, incomeList, investmentList, savingsList ,debtsLi
     });
 
     incomeList.forEach((element) => {
-      totalIncome_ += Number(element.totalAmount) || 0; // Ensure totalAmount is a number
+      totalIncome_ += Number(element.amount) || 0; // Changed from totalAmount to amount
     });
 
     investmentList.forEach((element) => {
@@ -91,86 +93,114 @@ function CardInfo({ budgetList, incomeList, investmentList, savingsList ,debtsLi
     <div>
       {budgetList?.length > 0 ? (
         <div>
-          <div className="p-7 border mt-4 -mb-1 rounded-2xl flex items-center justify-between">
-            <div className="">
-              <div className="flex mb-2 flex-row space-x-1 items-center">
-                <h2 className="text-md">Finan Smart AI</h2>
-                <Sparkles
-                  className="rounded-full text-white w-10 h-10 p-2 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 background-animate"
-                />
-              </div>
-              <h2 className="font-light text-md">
-                {financialAdvice || "Loading financial advice..."}
-              </h2>
+          {/* AI Financial Advice Section */}
+          <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-6 rounded-xl mb-6">
+            <div className="flex items-center gap-3 mb-3">
+              <Sparkles className="w-6 h-6" />
+              <h2 className="text-lg font-semibold">Finan Smart AI</h2>
             </div>
+            <p className="text-blue-100">
+              {financialAdvice || "Loading financial advice..."}
+            </p>
           </div>
-          
 
-          <div className="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <div className="p-7 border rounded-2xl flex items-center justify-between">
-              <div>
-                <h2 className="text-sm">Total Budget</h2>
-                <h2 className="font-bold text-2xl">${formatNumber(totalBudget)}</h2>
+          {/* Financial Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Total Budget Card */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-sm text-gray-500">Total Budget</p>
+                  <h3 className="text-2xl font-bold mt-1">₹{formatNumber(totalBudget)}</h3>
+                </div>
+                <PiggyBank className="w-10 h-10 p-2 bg-blue-100 text-blue-600 rounded-lg" />
               </div>
-              <PiggyBank className="bg-blue-800 p-3 h-12 w-12 rounded-full text-white" />
             </div>
-            <div className="p-7 border rounded-2xl flex items-center justify-between">
-              <div>
-                <h2 className="text-sm">Total Spend</h2>
-                <h2 className="font-bold text-2xl">${formatNumber(totalSpend)}</h2>
+
+            {/* Total Spend Card */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-sm text-gray-500">Total Spend</p>
+                  <h3 className="text-2xl font-bold mt-1">₹{formatNumber(totalSpend)}</h3>
+                </div>
+                <ReceiptText className="w-10 h-10 p-2 bg-green-100 text-green-600 rounded-lg" />
               </div>
-              <ReceiptText className="bg-blue-800 p-3 h-12 w-12 rounded-full text-white" />
             </div>
-            <div className="p-7 border rounded-2xl flex items-center justify-between">
-              <div>
-                <h2 className="text-sm">No. Of Budget</h2>
-                <h2 className="font-bold text-2xl">{budgetList?.length}</h2>
+
+            {/* Number of Budgets Card */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-sm text-gray-500">Number of Budgets</p>
+                  <h3 className="text-2xl font-bold mt-1">{budgetList?.length}</h3>
+                </div>
+                <Wallet className="w-10 h-10 p-2 bg-purple-100 text-purple-600 rounded-lg" />
               </div>
-              <Wallet className="bg-blue-800 p-3 h-12 w-12 rounded-full text-white" />
             </div>
-            <div className="p-7 border rounded-2xl flex items-center justify-between">
-              <div>
-                <h2 className="text-sm">Sum of Income Streams</h2>
-                <h2 className="font-bold text-2xl">${formatNumber(totalIncome)}</h2>
+
+            {/* Total Income Card */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-sm text-gray-500">Total Income</p>
+                  <h3 className="text-2xl font-bold mt-1">₹{formatNumber(totalIncome)}</h3>
+                </div>
+                <CircleDollarSign className="w-10 h-10 p-2 bg-yellow-100 text-yellow-600 rounded-lg" />
               </div>
-              <CircleDollarSign className="bg-blue-800 p-3 h-12 w-12 rounded-full text-white" />
             </div>
-            <div className="p-7 border rounded-2xl flex items-center justify-between">
-              <div>
-                <h2 className="text-sm">Sum of Investments</h2>
-                <h2 className="font-bold text-2xl">${formatNumber(investment)}</h2>
+
+            {/* Investments Card */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-sm text-gray-500">Total Investments</p>
+                  <h3 className="text-2xl font-bold mt-1">₹{formatNumber(investment)}</h3>
+                </div>
+                <TrendingUp className="w-10 h-10 p-2 bg-indigo-100 text-indigo-600 rounded-lg" />
               </div>
-              <CircleDollarSign className="bg-blue-800 p-3 h-12 w-12 rounded-full text-white" />
             </div>
-            <div className="p-7 border rounded-2xl flex items-center justify-between">
-              <div>
-                <h2 className="text-sm">Sum of Savings</h2>
-                <h2 className="font-bold text-2xl">${formatNumber(savings)}</h2>
+
+            {/* Savings Card */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-sm text-gray-500">Total Savings</p>
+                  <h3 className="text-2xl font-bold mt-1">₹{formatNumber(savings)}</h3>
+                </div>
+                <PiggyBank className="w-10 h-10 p-2 bg-pink-100 text-pink-600 rounded-lg" />
               </div>
-              <CircleDollarSign className="bg-blue-800 p-3 h-12 w-12 rounded-full text-white" />
             </div>
-            <div className="p-7 border rounded-2xl flex items-center justify-between">
-              <div>
-                <h2 className="text-sm">Sum of debts</h2>
-                <h2 className="font-bold text-2xl">${formatNumber(debts)}</h2>
+
+            {/* Debts Card */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-sm text-gray-500">Total Debts</p>
+                  <h3 className="text-2xl font-bold mt-1">₹{formatNumber(debts)}</h3>
+                </div>
+                <TrendingDownIcon className="w-10 h-10 p-2 bg-red-100 text-red-600 rounded-lg" />
               </div>
-              <CircleDollarSign className="bg-blue-800 p-3 h-12 w-12 rounded-full text-white" />
             </div>
-            <div className="p-7 border rounded-2xl flex items-center justify-between">
-              <div>
-                <h2 className="text-sm">Sum of tax</h2>
-                <h2 className="font-bold text-2xl">${formatNumber(tax)}</h2>
+
+            {/* Tax Card */}
+            <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-sm text-gray-500">Total Tax</p>
+                  <h3 className="text-2xl font-bold mt-1">₹{formatNumber(tax)}</h3>
+                </div>
+                <IndianRupee className="w-10 h-10 p-2 bg-orange-100 text-orange-600 rounded-lg" />
               </div>
-              <CircleDollarSign className="bg-blue-800 p-3 h-12 w-12 rounded-full text-white" />
             </div>
           </div>
         </div>
       ) : (
-        <div className="mt-7 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {[1, 2, 3].map((item, index) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[1, 2, 3, 4].map((item, index) => (
             <div
-              className="h-[110px] w-full bg-slate-200 animate-pulse rounded-lg"
               key={index}
+              className="h-[120px] w-full bg-gray-100 rounded-xl animate-pulse"
             ></div>
           ))}
         </div>

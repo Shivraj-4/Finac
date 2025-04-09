@@ -26,6 +26,7 @@ function IncomeList() {
       .where(eq(Incomes.createdBy, user?.primaryEmailAddress?.emailAddress))
       .groupBy(Incomes.id)
       .orderBy(desc(Incomes.id));
+    console.log('Income Data:', result);
     setIncomelist(result);
   };
 

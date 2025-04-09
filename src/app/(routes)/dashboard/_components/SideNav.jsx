@@ -82,10 +82,10 @@ function SideNav() {
   return (
     <div className="h-screen p-5 border shadow-sm">
       <div className="flex flex-row items-center">
-        <Image src={"./chart-donut.svg"} alt="logo" width={40} height={25} />
+        <Image src="/images/my-logo.png" alt="logo" width={40} height={25} />
         <Link href="/dashboard">
-          <span className="text-blue-800 font-bold text-3xl cursor-pointer">
-            FinanSmart
+        <span className="text-gray-800 font-bold text-3xl cursor-pointer">
+            Finac
           </span>
         </Link>
       </div>

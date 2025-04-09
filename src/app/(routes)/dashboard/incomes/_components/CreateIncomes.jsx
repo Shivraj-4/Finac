@@ -92,7 +92,13 @@ function CreateIncomes({ refreshData }) {
                   <Input
                     type="number"
                     placeholder="e.g. 5000$"
-                    onChange={(e) => setAmount(e.target.value)}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      // Ensure the value is a valid number
+                      if (!isNaN(value) && value !== '') {
+                        setAmount(parseFloat(value).toString());
+                      }
+                    }}
                   />
                 </div>
               </div>
