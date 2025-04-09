@@ -158,8 +158,9 @@ function Dashboard() {
       <div className="mb-8">
         <h2 className="font-bold text-4xl text-gray-800">Hi, {user?.fullName} 👋</h2>
         <p className="text-gray-600 mt-2">
-          Here's what's happening with your money. Let's manage your expenses.
+          Here&apos;s what&apos;s happening with your money. Let&apos;s manage your expenses.
         </p>
+
       </div>
 
       {/* Financial Overview Cards */}
@@ -214,14 +215,14 @@ function Dashboard() {
             <div className="space-y-4">
               {budgetList?.length > 0
                 ? budgetList.map((budget, index) => (
-                    <BudgetItem budget={budget} key={index} />
-                  ))
+                  <BudgetItem budget={budget} key={index} />
+                ))
                 : [1, 2, 3].map((item, index) => (
-                    <div
-                      key={index}
-                      className="h-[120px] w-full bg-gray-100 rounded-lg animate-pulse"
-                    ></div>
-                  ))}
+                  <div
+                    key={index}
+                    className="h-[120px] w-full bg-gray-100 rounded-lg animate-pulse"
+                  ></div>
+                ))}
             </div>
           </div>
         </div>

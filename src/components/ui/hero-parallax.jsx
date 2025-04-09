@@ -95,7 +95,7 @@ export const Header = () => {
       <p className="max-w-2xl text-base md:text-xl mt-8">
         Experience the next level of financial management with Finacc, your
         personalized AI-powered financial assistant. From tailored insights to
-        tracking your financial goals, Finacc ensures you're always in control
+        tracking your financial goals, Finacc ensures you&apos;re always in control
         of your wealth. Manage your finances effortlessly with sophisticated
         tools designed to help you grow and protect your assets.
       </p>
